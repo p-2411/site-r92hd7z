@@ -76,8 +76,8 @@ h1 {
 }
 
 .card-front {
-    /*-webkit-transform: rotateY(0deg);
-    transform: rotateY(0deg);*/
+    /*-webkit-transform: rotateY(0deg);*/
+    /*transform: rotateY(0deg);*/
 
     background-image: url("./flower.jpg");
     background-repeat: no-repeat;
