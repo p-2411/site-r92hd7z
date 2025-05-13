@@ -1,7 +1,50 @@
-// Card flip functionality
-const card = document.querySelector('.card');
-card.addEventListener('click', function() {
-    this.classList.toggle('flipped');
+// Alternative inline implementation
+// Use this if you prefer to modify your existing code directly
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Get the card element
+    const card = document.querySelector('.card');
+    
+    // 2. Create audio element programmatically if it doesn't exist
+    let cardMusic = document.getElementById('card-music');
+    if (!cardMusic) {
+        cardMusic = document.createElement('audio');
+        cardMusic.id = 'card-music';
+        cardMusic.style.display = 'none';
+        cardMusic.preload = 'auto';
+        
+        const source = document.createElement('source');
+        source.src = './music.mp3';
+        source.type = 'audio/mpeg';
+        cardMusic.appendChild(source);
+        
+        document.body.appendChild(cardMusic);
+    }
+    
+    // 3. Track if music has been played
+    let musicPlayed = false;
+    
+    // 4. Define the unified function for both flip and music
+    function flipCardAndPlayMusic() {
+        // Flip the card
+        this.classList.toggle('flipped');
+        
+        // Check if card is now flipped to back and music hasn't played yet
+        if (this.classList.contains('flipped') && !musicPlayed) {
+            musicPlayed = true;
+            cardMusic.play().catch(e => {
+                console.log("Music playback error:", e);
+                musicPlayed = false;
+            });
+        }
+    }
+    
+    // 5. Remove any existing listeners to avoid conflicts
+    const newCard = card.cloneNode(true);
+    card.parentNode.replaceChild(newCard, card);
+    
+    // 6. Add our unified handler to the new card
+    document.querySelector('.card').addEventListener('click', flipCardAndPlayMusic);
 });
 
 // Timeline navigation
@@ -217,3 +260,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Alternative JavaScript-only implementation
+// Add this to your JavaScript file instead of the HTML script version
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    // Create audio element programmatically
+    const backgroundMusic = document.createElement('audio');
+    backgroundMusic.id = 'background-music';
+    
+    // Add source
+    const source = document.createElement('source');
+    source.src = './music.mp3';
+    source.type = 'audio/mpeg';
+    
+    // Add fallback text
+    backgroundMusic.appendChild(source);
+    backgroundMusic.appendChild(document.createTextNode('Your browser does not support the audio element.'));
+    
+    // Add to document but keep hidden
+    backgroundMusic.style.display = 'none';
+    document.body.appendChild(backgroundMusic);
+    
+    // Set up card flip with music
+    const card = document.querySelector('.card');
+    let musicPlayed = false;
+    
+    // Safely integrate with existing flip functionality
+    const existingClickHandler = card.onclick;
+    card.onclick = null;
+    
+    // New handler that includes music
+    function cardFlipWithMusic() {
+        // Toggle flipped class (this is handled in your existing code, but we include it for safety)
+        this.classList.toggle('flipped');
+        
+        // Only play music on initial flip to the back, not when returning to front
+        if (this.classList.contains('flipped') && !musicPlayed) {
+            musicPlayed = true;
+            
+            // Delay to match the flip animation
+            setTimeout(() => {
+                backgroundMusic.play().catch(error => {
+                    console.log("Could not play audio:", error);
+                    musicPlayed = false; // Reset so user can try again
+                });
+            }, 500);
+        }
+    }
+    
+    // Ensure we don't create duplicate listeners
+    card.addEventListener('click', cardFlipWithMusic);
+    
+    // If there was an existing onclick handler, preserve its functionality
+    if (typeof existingClickHandler === 'function') {
+        card.addEventListener('click', function(e) {
+            existingClickHandler.call(this, e);
+        });
+    }
+});*/

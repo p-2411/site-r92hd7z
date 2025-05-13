@@ -253,63 +253,6 @@
 </div>
 <script src="mein.js"></script>
 
-<!-- Add this HTML code just before the closing </body> tag -->
-
-<!-- Hidden Audio Element (No Visible Controls) -->
-<audio id="background-music">
-    <source src="./music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-
-<script>
-    // Wait for DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get references to elements
-        const card = document.querySelector('.card');
-        const backgroundMusic = document.getElementById('background-music');
-        let musicPlayed = false;
-        
-        // Remove any existing click listener for the card (to avoid duplicates)
-        const oldCardFlip = card.onclick;
-        card.onclick = null;
-        
-        // Add card flip listener with music
-        card.addEventListener('click', function() {
-            // Toggle the flipped class
-            this.classList.toggle('flipped');
-            
-            // Only play music when flipping to show the back (not when flipping back)
-            // And only play it once (not every time the card is flipped)
-            if (this.classList.contains('flipped') && !musicPlayed) {
-                musicPlayed = true; // Mark as played so it won't play again
-                
-                // Add slight delay to make the music feel connected to the card flip
-                setTimeout(() => {
-                    // Try to play the music
-                    const playPromise = backgroundMusic.play();
-                    
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            console.log("Music started playing with card flip");
-                        }).catch(error => {
-                            console.log("Autoplay prevented:", error);
-                            // If autoplay is prevented, reset the flag so user can try again
-                            musicPlayed = false;
-                        });
-                    }
-                }, 500); // Play music after card is halfway through the flip
-            }
-        });
-        
-        // If there was a previous onclick handler, call it after our handling
-        if (typeof oldCardFlip === 'function') {
-            const originalHandler = oldCardFlip;
-            card.addEventListener('click', function(e) {
-                originalHandler.call(this, e);
-            });
-        }
-    });
-</script>
 </body>
 
 </html>
