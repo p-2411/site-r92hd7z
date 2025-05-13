@@ -509,3 +509,156 @@ h1 {
         font-size: 1.3rem;
     }
 }
+
+/* Add this CSS to your styles.css file */
+/* Enhanced Explosion Effects - Add to your styles.css */
+
+/* Rose Petal Enhancements */
+.petal {
+    position: absolute;
+    width: 25px; /* Larger petals */
+    height: 35px;
+    background: radial-gradient(ellipse at center, #ff758c 0%, #e25d6a 70%, #d14d5a 100%);
+    border-radius: 50% 50% 50% 0;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transform-origin: center bottom;
+}
+
+.petal.animate {
+    animation: petalFall 6s ease-out forwards; /* Longer animation */
+}
+
+@keyframes petalFall {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(0.5);
+    }
+    30% {
+        opacity: 1;
+        transform: translate(calc(var(--end-x)/3), calc(var(--end-y)/3)) rotate(calc(var(--rotation)/3)) scale(0.8);
+    }
+    100% {
+        transform: translate(var(--end-x), var(--end-y)) rotate(var(--rotation)) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Improved Firework Animation */
+.firework {
+    position: absolute;
+    width: 8px; /* Larger particles */
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-core, #fff);
+    box-shadow: 0 0 6px #fff, 
+                0 0 12px var(--color), 
+                0 0 18px var(--color), 
+                0 0 24px var(--color);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.firework.animate {
+    animation: explode 2s ease-out forwards; /* Longer animation */
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0, 0) scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    40% {
+        opacity: 1;
+        transform: translate(calc(var(--end-x) * 0.6), calc(var(--end-y) * 0.6)) scale(0.8);
+    }
+    100% {
+        transform: translate(var(--end-x), var(--end-y)) scale(0.1);
+        opacity: 0;
+    }
+}
+
+/* New Sparkle Effect */
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 101;
+}
+
+.sparkle.animate {
+    animation: sparkle 1s ease-out forwards;
+}
+
+@keyframes sparkle {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* New Starburst Effect */
+.starburst {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 99;
+}
+
+.starburst.animate {
+    animation: starburst 0.8s ease-out forwards;
+}
+
+@keyframes starburst {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Enhanced Container */
+.explosion-container {
+    position: fixed; /* Changed from absolute to fixed for fullscreen coverage */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 100;
+}

@@ -1,11 +1,12 @@
-// Alternative inline implementation
-// Use this if you prefer to modify your existing code directly
+// Integrated card flip, music, and explosion effects
+// Replace your entire mein.js file with this code
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Get the card element
+    // ===== PART 1: CARD FLIP WITH MUSIC =====
+    // Get the card element
     const card = document.querySelector('.card');
     
-    // 2. Create audio element programmatically if it doesn't exist
+    // Create audio element for card music
     let cardMusic = document.getElementById('card-music');
     if (!cardMusic) {
         cardMusic = document.createElement('audio');
@@ -21,32 +22,294 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(cardMusic);
     }
     
-    // 3. Track if music has been played
+    // Track if music has been played
     let musicPlayed = false;
     
-    // 4. Define the unified function for both flip and music
-    function flipCardAndPlayMusic() {
+    // ===== PART 2: EXPLOSION EFFECT SETUP =====
+    // Create explosion container if it doesn't exist
+  // Replace the rose petal and firework functions in your mein.js file with these enhanced versions
+
+// Function to create enhanced rose petals
+function createRosePetals(x, y) {
+    console.log("Creating enhanced rose petals at", x, y);
+    // Create more petals for a bigger effect
+    for (let i = 0; i < 60; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        
+        // Random size variation
+        const size = 20 + Math.random() * 25; // Bigger size range
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size * 1.5}px`;
+        
+        // Random color variations of pink and red
+        const hue = 340 + Math.random() * 30; // 340-370 for reds and pinks
+        const saturation = 70 + Math.random() * 30; // 70-100%
+        const lightness = 50 + Math.random() * 30; // 50-80%
+        petal.style.background = `radial-gradient(ellipse at center, 
+                                  hsl(${hue}, ${saturation}%, ${lightness}%) 0%, 
+                                  hsl(${hue}, ${saturation}%, ${lightness - 20}%) 70%, 
+                                  hsl(${hue}, ${saturation}%, ${lightness - 30}%) 100%)`;
+        
+        // Position at center
+        petal.style.left = `${x}px`;
+        petal.style.top = `${y}px`;
+        
+        // Random end position and rotation - bigger distance
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 200 + Math.random() * 400; // 200-600px (much larger range)
+        const endX = Math.cos(angle) * distance;
+        const endY = Math.sin(angle) * distance;
+        const rotation = Math.random() * 1080 - 540; // -540 to 540 degrees (more rotation)
+        
+        petal.style.setProperty('--end-x', `${endX}px`);
+        petal.style.setProperty('--end-y', `${endY}px`);
+        petal.style.setProperty('--rotation', `${rotation}deg`);
+        
+        document.querySelector('.explosion-container').appendChild(petal);
+        
+        // Animate and remove with staggered timing
+        setTimeout(() => {
+            petal.classList.add('animate');
+            setTimeout(() => petal.remove(), 6000);
+        }, Math.random() * 800); // More spread out timing
+    }
+}
+
+// Function to create enhanced fireworks
+function createFireworks(x, y) {
+    console.log("Creating enhanced fireworks at", x, y);
+    
+    // Create initial starburst effect
+    createStarburst(x, y);
+    
+    // Create multiple firework bursts with different colors and timing
+    createFireworkBurst(x, y, 40, ['#ff0', '#ffa', '#ff5']);  // Yellow/gold burst
+    
+    setTimeout(() => {
+        createFireworkBurst(x, y, 30, ['#f0f', '#faf', '#f5f']); // Pink/purple burst
+    }, 200);
+    
+    setTimeout(() => {
+        createFireworkBurst(x, y, 35, ['#0ff', '#aff', '#5ff']); // Blue/cyan burst
+    }, 400);
+    
+    setTimeout(() => {
+        createFireworkBurst(x, y, 25, ['#f55', '#faa', '#f77']); // Red burst
+    }, 600);
+    
+    // Create random sparkles around the explosion area
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            createSparkle(
+                x + (Math.random() * 400 - 200), 
+                y + (Math.random() * 400 - 200)
+            );
+        }, Math.random() * 1500);
+    }
+}
+
+// Function to create a single firework burst
+function createFireworkBurst(x, y, particleCount, colorPalette) {
+    const container = document.querySelector('.explosion-container');
+    
+    for (let i = 0; i < particleCount; i++) {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        
+        // Random color from the palette
+        const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+        firework.style.setProperty('--color', color);
+        
+        // Random core color (white or matching the shell)
+        const coreColor = Math.random() > 0.5 ? '#fff' : color;
+        firework.style.setProperty('--color-core', coreColor);
+        
+        // Random size variation
+        const size = 6 + Math.random() * 8;
+        firework.style.width = `${size}px`;
+        firework.style.height = `${size}px`;
+        
+        // Position at center
+        firework.style.left = `${x}px`;
+        firework.style.top = `${y}px`;
+        
+        // Random trajectory
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 250; // 100-350px
+        firework.style.setProperty('--end-x', `${Math.cos(angle) * distance}px`);
+        firework.style.setProperty('--end-y', `${Math.sin(angle) * distance}px`);
+        
+        container.appendChild(firework);
+        
+        // Animate and remove
+        setTimeout(() => {
+            firework.classList.add('animate');
+            setTimeout(() => firework.remove(), 2000);
+        }, Math.random() * 100);
+    }
+}
+
+// Function to create a starburst effect
+function createStarburst(x, y) {
+    const container = document.querySelector('.explosion-container');
+    const starburst = document.createElement('div');
+    starburst.className = 'starburst';
+    
+    starburst.style.left = `${x - 50}px`; // Center the 100px element
+    starburst.style.top = `${y - 50}px`;
+    
+    container.appendChild(starburst);
+    
+    // Animate and remove
+    setTimeout(() => {
+        starburst.classList.add('animate');
+        setTimeout(() => starburst.remove(), 800);
+    }, 10);
+}
+
+// Function to create sparkle effects
+function createSparkle(x, y) {
+    const container = document.querySelector('.explosion-container');
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    
+    // Random size
+    const size = 2 + Math.random() * 4;
+    sparkle.style.width = `${size}px`;
+    sparkle.style.height = `${size}px`;
+    
+    sparkle.style.left = `${x - size/2}px`;
+    sparkle.style.top = `${y - size/2}px`;
+    
+    container.appendChild(sparkle);
+    
+    // Animate and remove
+    sparkle.classList.add('animate');
+    setTimeout(() => sparkle.remove(), 1000);
+}
+    
+    // ===== PART 3: INTEGRATED CARD CLICK HANDLER =====
+    // Universal function that handles card flip, music, and explosion effects
+    function handleCardClick() {
+        console.log("Card clicked, flipped state before:", this.classList.contains('flipped'));
+        
+        // Store the state before the toggle
+        const wasFlipped = this.classList.contains('flipped');
+        
         // Flip the card
         this.classList.toggle('flipped');
         
-        // Check if card is now flipped to back and music hasn't played yet
-        if (this.classList.contains('flipped') && !musicPlayed) {
-            musicPlayed = true;
-            cardMusic.play().catch(e => {
-                console.log("Music playback error:", e);
-                musicPlayed = false;
-            });
+        // Check if card is now flipped to back (wasn't flipped before, but is now)
+        if (!wasFlipped) {
+            console.log("Card is now flipped to back, triggering effects");
+            
+            // Play music if it hasn't been played yet
+            if (!musicPlayed) {
+                musicPlayed = true;
+                cardMusic.play().catch(e => {
+                    console.log("Music playback error:", e);
+                    musicPlayed = false;
+                });
+            }
+            
+            // Get card center for explosion effects
+            const rect = this.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Trigger explosion effects with delay to match flip animation
+            setTimeout(() => {
+    console.log("Triggering enhanced explosion effects");
+    
+    // Create initial starburst for dramatic effect
+    createStarburst(centerX, centerY);
+    
+    // Play explosion sound with slightly higher volume
+    const explosionSound = document.getElementById('explosion-sound');
+    if (explosionSound) {
+        explosionSound.volume = 0.3;
+        explosionSound.play().catch(e => console.log("Couldn't play sound:", e));
+    }
+    
+    // Add rose petals
+    createRosePetals(centerX, centerY);
+    
+    // Add multiple firework bursts with staggered timing
+    createFireworks(centerX, centerY);
+    
+    // Create additional fireworks in nearby positions for a bigger effect
+    setTimeout(() => {
+        createFireworkBurst(centerX - 100, centerY - 50, 20, ['#ff0', '#ffa']);
+        createFireworkBurst(centerX + 100, centerY - 50, 20, ['#f0f', '#faf']);
+    }, 300);
+    
+    setTimeout(() => {
+        createFireworkBurst(centerX - 50, centerY + 100, 20, ['#0ff', '#aff']);
+        createFireworkBurst(centerX + 150, centerY + 50, 20, ['#f55', '#faa']);
+    }, 600);
+}, 500);
         }
     }
     
-    // 5. Remove any existing listeners to avoid conflicts
-    const newCard = card.cloneNode(true);
-    card.parentNode.replaceChild(newCard, card);
+    // Attach the combined handler to the card
+    card.addEventListener('click', handleCardClick);
     
-    // 6. Add our unified handler to the new card
-    document.querySelector('.card').addEventListener('click', flipCardAndPlayMusic);
+    // ===== PART 4: OTHER ANIMATIONS =====
+    // Add pulse and bounce animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Make timeline photos interactive
+    const photoContainers = document.querySelectorAll('.photo-container:not(.media-container)');
+    photoContainers.forEach(container => {
+        container.addEventListener('click', function() {
+            // Add a pulse effect when clicked
+            this.style.animation = 'pulse 0.5s';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 500);
+        });
+    });
+    
+    // Make memory cards interactive
+    const memoryCards = document.querySelectorAll('.memory-card');
+    memoryCards.forEach(card => {
+        card.addEventListener('click', function(event) {
+            // Don't trigger the animation if clicking on buttons
+            if (event.target.closest('.media-toggle')) {
+                return;
+            }
+            
+            // Add a gentle bounce effect when clicked
+            this.style.animation = 'bounce 0.5s';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 500);
+            
+            // Create a burst of hearts when clicked
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createHeartAt(event.clientX, event.clientY);
+                }, i * 100);
+            }
+        });
+    });
 });
 
+// ===== STANDALONE FUNCTIONS =====
 // Timeline navigation
 const timeline = document.querySelector('.timeline');
 const prevButton = document.querySelector('.prev-button');
@@ -126,61 +389,8 @@ function createHeartAt(x, y) {
     }, duration * 1000);
 }
 
-// Add animations
+// Video toggle functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Add pulse animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Make timeline photos interactive
-    const photoContainers = document.querySelectorAll('.photo-container:not(.media-container)');
-    photoContainers.forEach(container => {
-        container.addEventListener('click', function() {
-            // Add a pulse effect when clicked
-            this.style.animation = 'pulse 0.5s';
-            setTimeout(() => {
-                this.style.animation = '';
-            }, 500);
-        });
-    });
-    
-    // Make memory cards interactive
-    const memoryCards = document.querySelectorAll('.memory-card');
-    memoryCards.forEach(card => {
-        card.addEventListener('click', function(event) {
-            // Don't trigger the animation if clicking on buttons
-            if (event.target.closest('.media-toggle')) {
-                return;
-            }
-            
-            // Add a gentle bounce effect when clicked
-            this.style.animation = 'bounce 0.5s';
-            setTimeout(() => {
-                this.style.animation = '';
-            }, 500);
-            
-            // Create a burst of hearts when clicked
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    createHeartAt(event.clientX, event.clientY);
-                }, i * 100);
-            }
-        });
-    });
-    
-    // Video toggle functionality
     console.log('Initializing video card functionality...');
     const toggleButtons = document.querySelectorAll('.toggle-btn');
     
@@ -260,62 +470,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-// Alternative JavaScript-only implementation
-// Add this to your JavaScript file instead of the HTML script version
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    // Create audio element programmatically
-    const backgroundMusic = document.createElement('audio');
-    backgroundMusic.id = 'background-music';
-    
-    // Add source
-    const source = document.createElement('source');
-    source.src = './music.mp3';
-    source.type = 'audio/mpeg';
-    
-    // Add fallback text
-    backgroundMusic.appendChild(source);
-    backgroundMusic.appendChild(document.createTextNode('Your browser does not support the audio element.'));
-    
-    // Add to document but keep hidden
-    backgroundMusic.style.display = 'none';
-    document.body.appendChild(backgroundMusic);
-    
-    // Set up card flip with music
-    const card = document.querySelector('.card');
-    let musicPlayed = false;
-    
-    // Safely integrate with existing flip functionality
-    const existingClickHandler = card.onclick;
-    card.onclick = null;
-    
-    // New handler that includes music
-    function cardFlipWithMusic() {
-        // Toggle flipped class (this is handled in your existing code, but we include it for safety)
-        this.classList.toggle('flipped');
-        
-        // Only play music on initial flip to the back, not when returning to front
-        if (this.classList.contains('flipped') && !musicPlayed) {
-            musicPlayed = true;
-            
-            // Delay to match the flip animation
-            setTimeout(() => {
-                backgroundMusic.play().catch(error => {
-                    console.log("Could not play audio:", error);
-                    musicPlayed = false; // Reset so user can try again
-                });
-            }, 500);
-        }
-    }
-    
-    // Ensure we don't create duplicate listeners
-    card.addEventListener('click', cardFlipWithMusic);
-    
-    // If there was an existing onclick handler, preserve its functionality
-    if (typeof existingClickHandler === 'function') {
-        card.addEventListener('click', function(e) {
-            existingClickHandler.call(this, e);
-        });
-    }
-});*/
