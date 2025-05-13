@@ -39,23 +39,17 @@ h1 {
 }
 
 .card {
-    -webkit-transition: -webkit-transform 1s;
-    transition: transform 1s;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
     position: relative;
     width: 100%;
     height: 100%;
     transition: transform 1s;
+    -webkit-transition: transform 1s;
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     border-radius: 15px;
     cursor: pointer;
 }
-
-
-
-
 
 .card-front, .card-back {
     position: absolute;
@@ -73,6 +67,20 @@ h1 {
 
     /*-webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;*/
+}
+
+.card-front::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("./flower.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
 }
 
 .card-front {
