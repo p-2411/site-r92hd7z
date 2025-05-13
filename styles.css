@@ -136,6 +136,7 @@ h1 {
 
 .card-front h2 {
     font-family: 'Dancing Script', cursive;
+    text-align: center;
     font-size: 2rem;
     margin-bottom: 15px;
     position: relative;
