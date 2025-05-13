@@ -342,8 +342,6 @@ h1 {
     }
 }
 
-/* Add this CSS to the end of your styles.css file */
-
 /* Other Fun Memories Styles */
 .memories-container {
     margin-top: 100px;
@@ -510,13 +508,11 @@ h1 {
     }
 }
 
-/* Add this CSS to your styles.css file */
-/* Enhanced Explosion Effects - Add to your styles.css */
 
-/* Rose Petal Enhancements */
+/* Rose Petals*/
 .petal {
     position: absolute;
-    width: 25px; /* Larger petals */
+    width: 25px;
     height: 35px;
     background: radial-gradient(ellipse at center, #ff758c 0%, #e25d6a 70%, #d14d5a 100%);
     border-radius: 50% 50% 50% 0;
@@ -528,7 +524,7 @@ h1 {
 }
 
 .petal.animate {
-    animation: petalFall 6s ease-out forwards; /* Longer animation */
+    animation: petalFall 6s ease-out forwards; 
 }
 
 @keyframes petalFall {
@@ -550,10 +546,10 @@ h1 {
     }
 }
 
-/* Improved Firework Animation */
+/* Firework Animation */
 .firework {
     position: absolute;
-    width: 8px; /* Larger particles */
+    width: 8px; 
     height: 8px;
     border-radius: 50%;
     background-color: var(--color-core, #fff);
@@ -567,7 +563,7 @@ h1 {
 }
 
 .firework.animate {
-    animation: explode 2s ease-out forwards; /* Longer animation */
+    animation: explode 2s ease-out forwards;
 }
 
 @keyframes explode {
@@ -589,7 +585,7 @@ h1 {
     }
 }
 
-/* New Sparkle Effect */
+/*Sparkle Effect */
 .sparkle {
     position: absolute;
     width: 4px;
@@ -620,7 +616,7 @@ h1 {
     }
 }
 
-/* New Starburst Effect */
+/*Starburst Effect */
 .starburst {
     position: absolute;
     width: 100px;
@@ -651,9 +647,9 @@ h1 {
     }
 }
 
-/* Enhanced Container */
+/*Container */
 .explosion-container {
-    position: fixed; /* Changed from absolute to fixed for fullscreen coverage */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
